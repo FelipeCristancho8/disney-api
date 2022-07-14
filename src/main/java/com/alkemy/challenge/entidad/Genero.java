@@ -30,9 +30,15 @@ public class Genero {
     @NotBlank
     private String nombre;
 
-    @JsonIgnore
+    /*@JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "genero_contenido", joinColumns = @JoinColumn(name = "id_genero"),
-            inverseJoinColumns = @JoinColumn(name = ("id_contenido")))
+            inverseJoinColumns = @JoinColumn(name = ("id_contenido")))*/
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "generosAsociados")
     private Set<Contenido> contenidoAsociado = new HashSet<>();
+
+    public void agregarContenido(Contenido contenido){
+        this.contenidoAsociado.add(contenido);
+    }
 }

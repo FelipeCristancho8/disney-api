@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,8 +42,12 @@ public class Contenido {
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "contenidoAsociado")
     private Set<Personaje> personajesAsociados = new HashSet<>();
 
+    /*@JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "contenidoAsociado")*/
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "contenidoAsociado")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "genero_contenido", joinColumns = @JoinColumn(name = "id_contenido"),
+            inverseJoinColumns = @JoinColumn(name = ("id_genero")))
     private Set<Genero> generosAsociados = new HashSet<>();
 
     public void agregarPersonaje(Personaje personaje){
@@ -51,5 +56,13 @@ public class Contenido {
 
     public void agregarGenero(Genero genero){
         this.generosAsociados.add(genero);
+    }
+
+    public void agregarGeneros(List<Genero> generos){
+        generos.forEach( genero -> this.generosAsociados.add(genero));
+    }
+
+    public void agregarPersonajes(List<Personaje> personajes){
+        personajes.forEach(personaje -> this.personajesAsociados.add(personaje));
     }
 }

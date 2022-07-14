@@ -38,4 +38,9 @@ public class PersonajeControlador {
     public PersonajeResponse crearPersonaje(@RequestPart("personaje") PersonajeRequest personaje, @RequestPart("imagen")MultipartFile imagen){
         return this.personajeServicio.crearPersonaje(personaje,imagen);
     }
+
+    @GetMapping("/buscar")
+    public List<PersonajeDTO> buscarPorNombre(@RequestParam(name = "name") String nombre){
+        return this.personajeServicio.buscarPorNombre(nombre);
+    }
 }

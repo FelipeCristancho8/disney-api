@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,4 +48,9 @@ public class Personaje {
     public void agregarContenido(Contenido contenido){
         this.contenidoAsociado.add(contenido);
     }
+
+    public void agregarContenidos(List<Contenido> contenidos){
+        contenidos.forEach(contenido -> this.contenidoAsociado.add(contenido));
+    }
+
 }
