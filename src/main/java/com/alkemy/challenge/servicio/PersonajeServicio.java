@@ -5,8 +5,10 @@ import com.alkemy.challenge.dto.PersonajeRequest;
 import com.alkemy.challenge.dto.PersonajeResponse;
 import com.alkemy.challenge.entidad.Contenido;
 import com.alkemy.challenge.entidad.Personaje;
+import com.alkemy.challenge.excepcion.ElementoNoEncontradoExcepcion;
 import com.alkemy.challenge.mapper.PersonajeMapper;
 import com.alkemy.challenge.repositorio.PersonajeRepositorio;
+import com.alkemy.challenge.utilidades.CalculosFechas;
 import com.alkemy.challenge.utilidades.SubidaArchivos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,17 +53,10 @@ public class PersonajeServicio {
     }
 
     public List<Personaje> obtenerPersonajes(List<Long> personajes){
-        if(verificarSiExistenPersonajes(personajes)){
-            return personajes.stream().map((idPersonaje -> this.personajeRepositorio.findById(idPersonaje).orElse(null)))
-                    .collect(Collectors.toList());
-        }
-        //TODO enviar excepcion
-        return null;
+        return personajes.stream().map((idPersonaje -> this.personajeRepositorio.findById(idPersonaje)
+                .orElseThrow(() -> new NoSuchElementException("Personaje no encontrado"))))
+                .collect(Collectors.toList());
     }
-    private boolean verificarSiExistenPersonajes(List<Long> idPersonajes){
-        return idPersonajes.stream().allMatch(id ->this.personajeRepositorio.existsById(id));
-    }
-
 
     public void agregarContenidoAPersonajes(Contenido contenido, List<Personaje> personajes){
         personajes.forEach(personaje -> {
@@ -73,4 +69,10 @@ public class PersonajeServicio {
         return this.personajeMapper.personajesAPersonajesDTO(this.personajeRepositorio.findByNombre(nombre));
     }
 
+    public List<PersonajeDTO> buscarPorEdad(int edad){
+        List<Personaje> personajes = this.personajeRepositorio.findAll();
+        List<Personaje> filtrados = personajes.stream().filter(personaje -> CalculosFechas.calcularEdad(personaje.getFechaNacimiento()) == edad)
+                .collect(Collectors.toList());
+        return personajeMapper.personajesAPersonajesDTO(filtrados);
+    }
 }

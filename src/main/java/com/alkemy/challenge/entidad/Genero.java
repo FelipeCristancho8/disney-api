@@ -25,9 +25,11 @@ public class Genero {
     private Long id;
 
     @NotBlank
+    @Column(nullable = false)
     private String imagen;
 
     @NotBlank
+    @Column(unique = true)
     private String nombre;
 
     /*@JsonIgnore

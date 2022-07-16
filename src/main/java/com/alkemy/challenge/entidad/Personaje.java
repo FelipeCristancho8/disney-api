@@ -24,16 +24,19 @@ public class Personaje {
     private Long id;
 
     @NotBlank
+    @Column(nullable = false)
     private String imagen;
 
     @NotBlank
+    @Column(nullable = false)
     private String nombre;
 
     @NotNull
-    @Column(name = "fecha_nacimiento")
+    @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
     @NotNull
+    @Column(nullable = false)
     private float peso;
 
     @Column(length = 255)
@@ -52,5 +55,4 @@ public class Personaje {
     public void agregarContenidos(List<Contenido> contenidos){
         contenidos.forEach(contenido -> this.contenidoAsociado.add(contenido));
     }
-
 }

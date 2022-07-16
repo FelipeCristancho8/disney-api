@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,12 +36,17 @@ public class PersonajeControlador {
     }
 
     @PostMapping
-    public PersonajeResponse crearPersonaje(@RequestPart("personaje") PersonajeRequest personaje, @RequestPart("imagen")MultipartFile imagen){
+    public PersonajeResponse crearPersonaje(@Valid @RequestPart("personaje") PersonajeRequest personaje, @RequestPart("imagen")MultipartFile imagen){
         return this.personajeServicio.crearPersonaje(personaje,imagen);
     }
 
     @GetMapping("/buscar")
     public List<PersonajeDTO> buscarPorNombre(@RequestParam(name = "name") String nombre){
         return this.personajeServicio.buscarPorNombre(nombre);
+    }
+
+    @GetMapping("/fecha")
+    public List<PersonajeDTO> buscarPorEdad(@RequestParam(name = "age") int edad){
+        return this.personajeServicio.buscarPorEdad(edad);
     }
 }

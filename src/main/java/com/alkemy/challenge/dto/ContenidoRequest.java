@@ -14,7 +14,7 @@ import java.util.Set;
 public class ContenidoRequest {
 
     @JsonProperty("titulo")
-    @NotBlank(message = "El titulo no debe estar vacio")
+    @NotBlank(message = "Titulo es obligatorio")
     private String titulo;
 
     @JsonProperty("fechaCreacion")

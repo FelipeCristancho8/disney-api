@@ -25,17 +25,20 @@ public class Contenido {
     private Long id;
 
     @NotBlank(message = "Imagen es obligatoria")
+    @Column(nullable = false)
     private String imagen;
 
     @NotBlank(message = "Titulo es obligatorio")
+    @Column(nullable = false)
     private String titulo;
 
-    @Column(name = "fecha_creacion")
+    @Column(name = "fecha_creacion", nullable = false)
     @NotNull(message = "Fecha de creacion es obligatoria")
     private LocalDate fechaCreacion;
 
     @NotNull(message = "Calificacion es obligatorio")
     @Range(min = 1, max = 5, message = "La calificacion debe estar entre 1 y 5")
+    @Column(nullable = false)
     private byte calificacion;
 
     @JsonIgnore
