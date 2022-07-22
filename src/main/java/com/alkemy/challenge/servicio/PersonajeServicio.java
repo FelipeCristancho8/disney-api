@@ -1,16 +1,16 @@
 package com.alkemy.challenge.servicio;
 
-import com.alkemy.challenge.dto.PersonajeDTO;
-import com.alkemy.challenge.dto.PersonajeRequest;
-import com.alkemy.challenge.dto.PersonajeResponse;
+import com.alkemy.challenge.dto.*;
+import com.alkemy.challenge.dto.proyeccion.IProyeccionPersonajeBusqueda;
 import com.alkemy.challenge.entidad.Contenido;
 import com.alkemy.challenge.entidad.Personaje;
-import com.alkemy.challenge.excepcion.ElementoNoEncontradoExcepcion;
 import com.alkemy.challenge.mapper.PersonajeMapper;
 import com.alkemy.challenge.repositorio.PersonajeRepositorio;
 import com.alkemy.challenge.utilidades.CalculosFechas;
 import com.alkemy.challenge.utilidades.SubidaArchivos;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,8 +21,9 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class PersonajeServicio {
+
+    private static final String PERSONAJE_NO_ENCONTRADO = "Personaje no encontrado";
 
     @Autowired
     private PersonajeRepositorio personajeRepositorio;
@@ -33,9 +34,6 @@ public class PersonajeServicio {
     @Autowired
     private PersonajeMapper personajeMapper;
 
-    public List<PersonajeDTO> listarPersonajes(){
-        return personajeMapper.personajesAPersonajesDTO(this.personajeRepositorio.findAll());
-    }
 
     public PersonajeResponse crearPersonaje(PersonajeRequest personaje, MultipartFile imagen){
         String rutaImagen = "";
@@ -52,10 +50,50 @@ public class PersonajeServicio {
         return personajeMapper.personajeAPersonajeResponse(personajeEntidad);
     }
 
+    public PersonajeDTO editarPersonaje(Long idPersonaje, PersonajeEditadoRequest personaje, MultipartFile imagen){
+        String rutaImagen = "";
+        Personaje personajeAEditar = this.personajeRepositorio.findById(idPersonaje)
+                .orElseThrow(() -> new NoSuchElementException(PERSONAJE_NO_ENCONTRADO));
+        if(!imagen.isEmpty()){
+            rutaImagen = SubidaArchivos.subirImagen(imagen);
+            personajeAEditar.setImagen(rutaImagen);
+        }
+        this.mapearCamposValidos(personaje,personajeAEditar);
+        //return personajeMapper.personajeAPersonajeDTO(this.personajeRepositorio.save(personajeAEditar));
+        return null;
+    }
+
+    private void mapearCamposValidos(PersonajeEditadoRequest personajeRequest, Personaje personaje){
+        if(StringUtils.isBlank(personajeRequest.getNombre())){
+            personaje.setNombre(personajeRequest.getNombre());
+        }
+        if(personajeRequest.getFechaNacimiento() != null){
+            personaje.setFechaNacimiento(personajeRequest.getFechaNacimiento());
+        }
+        if(StringUtils.isBlank(personajeRequest.getHistoria())){
+            personaje.setHistoria(personajeRequest.getHistoria());
+        }
+        if(personajeRequest.getPeso() != null){
+            personaje.setPeso(personajeRequest.getPeso());
+        }
+    }
+
+    public void eliminarPersonaje(Long idPersonaje){
+        if(!this.personajeRepositorio.existsById(idPersonaje)){
+            throw new NoSuchElementException(PERSONAJE_NO_ENCONTRADO);
+        }
+        this.personajeRepositorio.deleteById(idPersonaje);
+    }
+
     public List<Personaje> obtenerPersonajes(List<Long> personajes){
         return personajes.stream().map((idPersonaje -> this.personajeRepositorio.findById(idPersonaje)
-                .orElseThrow(() -> new NoSuchElementException("Personaje no encontrado"))))
+                .orElseThrow(() -> new NoSuchElementException(PERSONAJE_NO_ENCONTRADO))))
                 .collect(Collectors.toList());
+    }
+
+    public Personaje obtenerPersonaje(Long id){
+        return this.personajeRepositorio.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(PERSONAJE_NO_ENCONTRADO));
     }
 
     public void agregarContenidoAPersonajes(Contenido contenido, List<Personaje> personajes){
@@ -65,14 +103,29 @@ public class PersonajeServicio {
         });
     }
 
-    public List<PersonajeDTO> buscarPorNombre(String nombre){
-        return this.personajeMapper.personajesAPersonajesDTO(this.personajeRepositorio.findByNombre(nombre));
+    public List<PersonajeDTO> obtenerDetallePersonajes(){
+        return personajeMapper.personajesAPersonajesDTO(this.personajeRepositorio.findAll());
     }
 
-    public List<PersonajeDTO> buscarPorEdad(int edad){
-        List<Personaje> personajes = this.personajeRepositorio.findAll();
-        List<Personaje> filtrados = personajes.stream().filter(personaje -> CalculosFechas.calcularEdad(personaje.getFechaNacimiento()) == edad)
-                .collect(Collectors.toList());
-        return personajeMapper.personajesAPersonajesDTO(filtrados);
+    public PersonajeDTO obtenerDetallePersonaje(Long idPersonaje){
+        return this.personajeMapper.personajeAPersonajeDTO(this.personajeRepositorio.findById(idPersonaje)
+                .orElseThrow( () -> new NoSuchElementException(PERSONAJE_NO_ENCONTRADO)));
     }
+
+    public List<PersonajeBusquedaDTO> obtenerPersonajes(){
+        return this.personajeMapper.personajesAPersonajesBusquedaDTO(this.personajeRepositorio.findAll());
+    }
+
+    public List<PersonajeBusquedaDTO> buscarPorNombre(String nombre){
+        return this.personajeMapper.personajesAPersonajesBusquedaDTO(this.personajeRepositorio.findByNombre(nombre));
+    }
+
+    public List<IProyeccionPersonajeBusqueda> buscarPorEdad(int edad){
+        return this.personajeRepositorio.buscarPorEdad(edad);
+    }
+
+    public List<IProyeccionPersonajeBusqueda> buscarPorContenido(Long id){
+        return this.personajeRepositorio.buscarPorContenido(id);
+    }
+
 }

@@ -1,9 +1,6 @@
 package com.alkemy.challenge.mapper;
 
-import com.alkemy.challenge.dto.ContenidoBasicoDTO;
-import com.alkemy.challenge.dto.ContenidoDTO;
-import com.alkemy.challenge.dto.ContenidoRequest;
-import com.alkemy.challenge.dto.ContenidoResponse;
+import com.alkemy.challenge.dto.*;
 import com.alkemy.challenge.entidad.Contenido;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -27,4 +24,6 @@ public interface ContenidoMapper {
     Contenido contenidoRequestAContenido(ContenidoRequest contenidoRequest);
 
     ContenidoResponse contenidoAContenidoResponse(Contenido contenido);
+
+    List<ContenidoBusquedaDTO> contenidosAContenidosBusquedaDTO(List<Contenido> contenidos);
 }

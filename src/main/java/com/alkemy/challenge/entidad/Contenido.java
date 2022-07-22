@@ -39,7 +39,7 @@ public class Contenido {
     @NotNull(message = "Calificacion es obligatorio")
     @Range(min = 1, max = 5, message = "La calificacion debe estar entre 1 y 5")
     @Column(nullable = false)
-    private byte calificacion;
+    private Byte calificacion;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "contenidoAsociado")

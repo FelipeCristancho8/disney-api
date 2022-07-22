@@ -37,7 +37,7 @@ public class Personaje {
 
     @NotNull
     @Column(nullable = false)
-    private float peso;
+    private Float peso;
 
     @Column(length = 255)
     private String historia;

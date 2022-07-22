@@ -19,4 +19,6 @@ public interface PersonajeMapper {
     Personaje personajeRequestAPersonaje(PersonajeRequest personajeRequest);
 
     PersonajeResponse personajeAPersonajeResponse(Personaje personaje);
+
+    List<PersonajeBusquedaDTO> personajesAPersonajesBusquedaDTO(List<Personaje> personaje);
 }

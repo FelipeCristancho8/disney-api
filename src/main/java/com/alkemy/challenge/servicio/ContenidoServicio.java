@@ -1,8 +1,7 @@
 package com.alkemy.challenge.servicio;
 
-import com.alkemy.challenge.dto.ContenidoDTO;
-import com.alkemy.challenge.dto.ContenidoRequest;
-import com.alkemy.challenge.dto.ContenidoResponse;
+import com.alkemy.challenge.dto.*;
+import com.alkemy.challenge.dto.proyeccion.ProyeccionContenidosBusqueda;
 import com.alkemy.challenge.entidad.Contenido;
 import com.alkemy.challenge.entidad.Genero;
 import com.alkemy.challenge.entidad.Personaje;
@@ -10,6 +9,7 @@ import com.alkemy.challenge.excepcion.ElementoNoEncontradoExcepcion;
 import com.alkemy.challenge.mapper.ContenidoMapper;
 import com.alkemy.challenge.repositorio.ContenidoRepositorio;
 import com.alkemy.challenge.utilidades.SubidaArchivos;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,13 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class ContenidoServicio {
+
+    private static final String CONTENIDO_NO_ENCONTRADO = "Contenido no encontrado";
 
     @Autowired
     private ContenidoRepositorio contenidoRepositorio;
@@ -64,9 +66,65 @@ public class ContenidoServicio {
         //return null;
     }
 
+    public ContenidoDTO editarContenido(Long idContenido, ContenidoEditadoRequest contenidoEditadoRequest, MultipartFile imagen){
+        String rutaImagen = "";
+        Contenido contenidoAEditar = this.contenidoRepositorio.findById(idContenido)
+                .orElseThrow(() -> new NoSuchElementException(CONTENIDO_NO_ENCONTRADO));
+        if (!imagen.isEmpty()) {
+            rutaImagen = SubidaArchivos.subirImagen(imagen);
+            contenidoAEditar.setImagen(rutaImagen);
+        }
+        this.mapearCamposValidos(contenidoEditadoRequest,contenidoAEditar);
+        return this.contenidoMapper.contenidoAContenidoDTO(this.contenidoRepositorio.save(contenidoAEditar));
+    }
+
+    private void mapearCamposValidos(ContenidoEditadoRequest contenidoRequest, Contenido contenido){
+        if(!StringUtils.isBlank(contenidoRequest.getTitulo())){
+            contenido.setTitulo(contenidoRequest.getTitulo());
+        }
+        if(contenidoRequest.getFechaCreacion() != null){
+            contenido.setFechaCreacion(contenidoRequest.getFechaCreacion());
+        }
+        if(contenidoRequest.getCalificacion() != null){
+            contenido.setCalificacion(contenidoRequest.getCalificacion());
+        }
+    }
+
+    public void eliminarContenidos(Long id){
+        if(!this.contenidoRepositorio.existsById(id)){
+            throw new NoSuchElementException(CONTENIDO_NO_ENCONTRADO);
+        }
+        this.contenidoRepositorio.deleteById(id);
+    }
+
+    public void agregarPersonajeAContenido(Long idContenido, Long idPersonaje){
+        Contenido contenido = this.contenidoRepositorio.findById(idContenido)
+                .orElseThrow(() -> new NoSuchElementException(CONTENIDO_NO_ENCONTRADO));
+        Personaje personaje = this.personajeServicio.obtenerPersonaje(idPersonaje);
+        if(this.verificarExistenciaPersonajeEnContenido(personaje, contenido.getPersonajesAsociados())){
+            //TODO finalizar metodo
+        }
+    }
+
+    private boolean verificarExistenciaPersonajeEnContenido(Personaje personajeAEncontrar, Set<Personaje> personajes) {
+        return personajes.stream().anyMatch(personaje -> personajeAEncontrar.equals(personaje));
+    }
+
     public List<Contenido> obtenerContenidos(List<Long> contenidos) {
         return contenidos.stream().map(idContenido -> this.contenidoRepositorio.findById(idContenido)
-                .orElseThrow(() -> new ElementoNoEncontradoExcepcion("Contenido no encontrado")))
+                .orElseThrow(() -> new ElementoNoEncontradoExcepcion(CONTENIDO_NO_ENCONTRADO)))
                 .collect(Collectors.toList());
+    }
+
+    public List<ContenidoBusquedaDTO> buscarPorTitulo(String titulo){
+        return this.contenidoMapper.contenidosAContenidosBusquedaDTO(this.contenidoRepositorio.findByTitulo(titulo));
+    }
+
+    public List<ProyeccionContenidosBusqueda> buscarPorGenero(Long id){
+        return this.contenidoRepositorio.buscarPorGenero(id);
+    }
+
+    public List<ProyeccionContenidosBusqueda> buscarPorOrdenacion(String tipoOrdenacion){
+        return this.contenidoRepositorio.buscarPorOrdenacion(tipoOrdenacion);
     }
 }
