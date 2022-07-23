@@ -5,6 +5,7 @@ import com.alkemy.challenge.dto.proyeccion.ProyeccionContenidosBusqueda;
 import com.alkemy.challenge.entidad.Contenido;
 import com.alkemy.challenge.entidad.Genero;
 import com.alkemy.challenge.entidad.Personaje;
+import com.alkemy.challenge.excepcion.ElementoDuplicadoExcepcion;
 import com.alkemy.challenge.excepcion.ElementoNoEncontradoExcepcion;
 import com.alkemy.challenge.mapper.ContenidoMapper;
 import com.alkemy.challenge.repositorio.ContenidoRepositorio;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class ContenidoServicio {
 
     private static final String CONTENIDO_NO_ENCONTRADO = "Contenido no encontrado";
+    private static final String PERSONAJE_DUPLICADO = "El personaje ya existe en la pelicula";
 
     @Autowired
     private ContenidoRepositorio contenidoRepositorio;
@@ -69,7 +70,7 @@ public class ContenidoServicio {
     public ContenidoDTO editarContenido(Long idContenido, ContenidoEditadoRequest contenidoEditadoRequest, MultipartFile imagen){
         String rutaImagen = "";
         Contenido contenidoAEditar = this.contenidoRepositorio.findById(idContenido)
-                .orElseThrow(() -> new NoSuchElementException(CONTENIDO_NO_ENCONTRADO));
+                .orElseThrow(() -> new ElementoNoEncontradoExcepcion(CONTENIDO_NO_ENCONTRADO));
         if (!imagen.isEmpty()) {
             rutaImagen = SubidaArchivos.subirImagen(imagen);
             contenidoAEditar.setImagen(rutaImagen);
@@ -92,18 +93,22 @@ public class ContenidoServicio {
 
     public void eliminarContenidos(Long id){
         if(!this.contenidoRepositorio.existsById(id)){
-            throw new NoSuchElementException(CONTENIDO_NO_ENCONTRADO);
+            throw new ElementoNoEncontradoExcepcion(CONTENIDO_NO_ENCONTRADO);
         }
         this.contenidoRepositorio.deleteById(id);
     }
 
-    public void agregarPersonajeAContenido(Long idContenido, Long idPersonaje){
+
+    public ContenidoDTO agregarPersonajeAContenido(Long idContenido, Long idPersonaje){
         Contenido contenido = this.contenidoRepositorio.findById(idContenido)
-                .orElseThrow(() -> new NoSuchElementException(CONTENIDO_NO_ENCONTRADO));
+                .orElseThrow(() -> new ElementoNoEncontradoExcepcion(CONTENIDO_NO_ENCONTRADO));
         Personaje personaje = this.personajeServicio.obtenerPersonaje(idPersonaje);
         if(this.verificarExistenciaPersonajeEnContenido(personaje, contenido.getPersonajesAsociados())){
-            //TODO finalizar metodo
+            throw new ElementoDuplicadoExcepcion(PERSONAJE_DUPLICADO);
         }
+        this.personajeServicio.agregarPersonajeAContenido(contenido,personaje);
+        contenido.agregarPersonaje(personaje);
+        return this.contenidoMapper.contenidoAContenidoDTO(this.contenidoRepositorio.save(contenido));
     }
 
     private boolean verificarExistenciaPersonajeEnContenido(Personaje personajeAEncontrar, Set<Personaje> personajes) {

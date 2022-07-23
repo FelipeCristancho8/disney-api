@@ -49,6 +49,12 @@ public class ManejadorExcepciones extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleException(ElementoDuplicadoExcepcion exc){
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        return buildResponseEntity(httpStatus,exc);
+    }
+
+    @ExceptionHandler
     protected ResponseEntity<ErrorResponse> handleException(MethodArgumentTypeMismatchException exc) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         // Aplica cuando en el URL se envia un argumento invalido, por ejemplo String

@@ -34,6 +34,11 @@ public class ContenidoControlador {
         this.contenidoServicio.eliminarContenidos(id);
     }
 
+    @PostMapping(value = "{idMovie}/characters/{idCharacter}")
+    public ResponseEntity<ContenidoDTO> agregarPersonajeAcontenido(@PathVariable("idMovie") Long idContenido,@PathVariable("idCharacter") Long idPersonaje){
+        return new ResponseEntity<>(this.contenidoServicio.agregarPersonajeAContenido(idContenido,idPersonaje), HttpStatus.OK);
+    }
+
     @GetMapping("/detalle")
     public ResponseEntity<List<ContenidoDTO>>  listarContenidos(){
         return new ResponseEntity<>(this.contenidoServicio.listarContenidos(), HttpStatus.OK);
