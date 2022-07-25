@@ -111,6 +111,18 @@ public class ContenidoServicio {
         return this.contenidoMapper.contenidoAContenidoDTO(this.contenidoRepositorio.save(contenido));
     }
 
+    public ContenidoDTO removerPersonajeDeContenido(Long idContenido, Long idPersonaje){
+        Contenido contenido = this.contenidoRepositorio.findById(idContenido)
+                .orElseThrow(() -> new ElementoNoEncontradoExcepcion(CONTENIDO_NO_ENCONTRADO));
+        Personaje personaje = this.personajeServicio.obtenerPersonaje(idPersonaje);
+        if(!this.verificarExistenciaPersonajeEnContenido(personaje, contenido.getPersonajesAsociados())){
+            throw new ElementoNoEncontradoExcepcion(CONTENIDO_NO_ENCONTRADO);
+        }
+        this.personajeServicio.eliminarPersonajeDeContenido(contenido,personaje);
+        contenido.eliminarPersonaje(personaje);
+        return this.contenidoMapper.contenidoAContenidoDTO(this.contenidoRepositorio.save(contenido));
+    }
+
     private boolean verificarExistenciaPersonajeEnContenido(Personaje personajeAEncontrar, Set<Personaje> personajes) {
         return personajes.stream().anyMatch(personaje -> personajeAEncontrar.equals(personaje));
     }

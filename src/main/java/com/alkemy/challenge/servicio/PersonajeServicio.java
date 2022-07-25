@@ -106,6 +106,11 @@ public class PersonajeServicio {
         this.personajeRepositorio.save(personaje);
     }
 
+    public void eliminarPersonajeDeContenido(Contenido contenido, Personaje personaje){
+        personaje.eliminarContenido(contenido);
+        this.personajeRepositorio.save(personaje);
+    }
+
     public List<PersonajeDTO> obtenerDetallePersonajes(){
         return personajeMapper.personajesAPersonajesDTO(this.personajeRepositorio.findAll());
     }

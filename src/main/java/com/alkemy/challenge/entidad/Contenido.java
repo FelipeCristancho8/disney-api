@@ -57,15 +57,15 @@ public class Contenido {
         this.personajesAsociados.add(personaje);
     }
 
-    public void agregarGenero(Genero genero){
-        this.generosAsociados.add(genero);
-    }
-
     public void agregarGeneros(List<Genero> generos){
         generos.forEach( genero -> this.generosAsociados.add(genero));
     }
 
     public void agregarPersonajes(List<Personaje> personajes){
         personajes.forEach(personaje -> this.personajesAsociados.add(personaje));
+    }
+
+    public void eliminarPersonaje(Personaje personajeARemover){
+        this.personajesAsociados.removeIf(personaje -> personajeARemover.equals(personaje));
     }
 }

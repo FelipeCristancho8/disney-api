@@ -55,4 +55,8 @@ public class Personaje {
     public void agregarContenidos(List<Contenido> contenidos){
         contenidos.forEach(contenido -> this.contenidoAsociado.add(contenido));
     }
+
+    public void eliminarContenido(Contenido contenidoARemover){
+        contenidoAsociado.removeIf(contenido -> contenido.equals(contenidoARemover));
+    }
 }
