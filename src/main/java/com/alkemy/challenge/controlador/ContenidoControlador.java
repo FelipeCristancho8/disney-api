@@ -6,6 +6,7 @@ import com.alkemy.challenge.servicio.ContenidoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,26 +20,31 @@ public class ContenidoControlador {
     @Autowired
     private ContenidoServicio contenidoServicio;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ContenidoResponse> crearContenido(@Valid @RequestPart("contenido")ContenidoRequest contenido, @RequestPart("imagen") MultipartFile imagen){
         return new ResponseEntity<>(this.contenidoServicio.crearContenido(contenido,imagen), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ContenidoDTO> editarContenido(@PathVariable("id") Long id,@Valid @RequestPart("contenido")ContenidoEditadoRequest contenido, @RequestPart("imagen") MultipartFile imagen){
         return new ResponseEntity<>(this.contenidoServicio.editarContenido(id,contenido,imagen), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public void eliminarContenido(@PathVariable("id") Long id){
         this.contenidoServicio.eliminarContenidos(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "{idMovie}/characters/{idCharacter}")
     public ResponseEntity<ContenidoDTO> agregarPersonajeAcontenido(@PathVariable("idMovie") Long idContenido,@PathVariable("idCharacter") Long idPersonaje){
         return new ResponseEntity<>(this.contenidoServicio.agregarPersonajeAContenido(idContenido,idPersonaje), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "{idMovie}/characters/{idCharacter}")
     public ResponseEntity<ContenidoDTO> removerPersonajeDeContenido(@PathVariable("idMovie") Long idContenido,@PathVariable("idCharacter") Long idPersonaje){
         return new ResponseEntity<>(this.contenidoServicio.removerPersonajeDeContenido(idContenido,idPersonaje), HttpStatus.OK);

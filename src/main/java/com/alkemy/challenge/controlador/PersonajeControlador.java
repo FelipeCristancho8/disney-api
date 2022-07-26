@@ -7,6 +7,7 @@ import com.alkemy.challenge.servicio.PersonajeServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,18 +24,21 @@ public class PersonajeControlador {
     @Autowired
     private PersonajeMapper personajeMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PersonajeResponse> crearPersonaje(@Valid @RequestPart("personaje") PersonajeRequest personaje,
                                                             @RequestPart("imagen")MultipartFile imagen){
         return new ResponseEntity<>(this.personajeServicio.crearPersonaje(personaje,imagen), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<PersonajeDTO> editarPersonaje(@PathVariable("id") Long id, @Valid @RequestPart("personaje")PersonajeEditadoRequest personaje,
                                                         @RequestPart("imagen") MultipartFile imagen){
         return new ResponseEntity<>(this.personajeServicio.editarPersonaje(id,personaje,imagen), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public void eliminarPersonaje(@PathVariable("id") Long id){
         this.personajeServicio.eliminarPersonaje(id);

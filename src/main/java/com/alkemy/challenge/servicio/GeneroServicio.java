@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 public class GeneroServicio {
 
     @Autowired
-    GeneroRepositorio generoRepositorio;
+    private GeneroRepositorio generoRepositorio;
 
     @Autowired
-    GeneroMapper generoMapper;
+    private GeneroMapper generoMapper;
 
     public List<Genero> listarGeneros(){
         return this.generoRepositorio.findAll();
