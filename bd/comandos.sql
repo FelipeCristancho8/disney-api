@@ -32,3 +32,7 @@ GRANT INSERT ANY TABLE TO felipe;
 GRANT QUERY REWRITE TO felipe;
 GRANT SELECT ANY TABLE TO felipe;
 GRANT UNLIMITED TABLESPACE TO felipe;
+
+--Ejecutar los siguientes comandos luego de que se hayan creado las tablas automaticamente
+INSERT INTO roles (ROL_NOMBRE) VALUES ('ROLE_ADMIN');
+INSERT INTO roles (ROL_NOMBRE) VALUES ('ROLE_USER');

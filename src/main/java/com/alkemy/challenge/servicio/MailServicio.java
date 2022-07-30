@@ -27,27 +27,12 @@ public class MailServicio {
     private JavaMailSender javaMailSender;
 
     public void enviarMensaje(String para){
-        /*SimpleMailMessage mensaje = new SimpleMailMessage();
+        SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(para);
         mensaje.setFrom(usuarioCorreo);
         mensaje.setSubject(this.asunto);
-        mensaje.setText(this.cuerpo);*/
+        mensaje.setText(this.cuerpo);
 
-
-        MimeMessage msg = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper helper = new MimeMessageHelper(msg,true);
-            helper.setTo(para);
-            helper.setFrom(this.usuarioCorreo);
-            helper.setSubject(this.asunto);
-            helper.setText(this.cuerpo);
-            FileSystemResource imagen = new FileSystemResource(new    File("src/main/resources/static/images/disney.jpg"));
-            helper.addAttachment("imagen",imagen);
-            javaMailSender.send(msg);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-
-        //javaMailSender.send(mensaje);
+        javaMailSender.send(mensaje);
     }
 }

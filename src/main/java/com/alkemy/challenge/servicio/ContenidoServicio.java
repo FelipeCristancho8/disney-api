@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -46,25 +46,27 @@ public class ContenidoServicio {
     }
 
     public ContenidoResponse crearContenido(ContenidoRequest contenido, MultipartFile imagen) {
-        //TODO hacer la conversion a la salida (return) que se pide en el reto
         String rutaImagen = "";
-        List<Personaje> personajes = this.personajeServicio.obtenerPersonajes(new ArrayList<>(contenido.getPersonajesAsociados()));
-        List<Genero> generos = this.generoServicio.obtenerGeneros(new ArrayList<>(contenido.getGenerosAsociados()));
+
         Contenido contenidoEntidad = this.contenidoMapper.contenidoRequestAContenido(contenido);
         if (!imagen.isEmpty()) {
             rutaImagen = SubidaArchivos.subirImagen(imagen);
             contenidoEntidad.setImagen(rutaImagen);
         }
-        if (generos != null) {
+
+        if(contenido.getGenerosAsociados() != null){
+            List<Genero> generos = this.generoServicio.obtenerGeneros(new ArrayList<>(contenido.getGenerosAsociados()));
             contenidoEntidad.agregarGeneros(generos);
         }
+
         Contenido contenidoAlmacenado = this.contenidoRepositorio.save(contenidoEntidad);
-        if (personajes != null) {
+        if(contenido.getPersonajesAsociados() != null){
+            System.out.println("entro a personajes asociados");
+            List<Personaje> personajes = this.personajeServicio.obtenerPersonajes(new ArrayList<>(contenido.getPersonajesAsociados()));
             this.personajeServicio.agregarContenidoAPersonajes(contenidoAlmacenado, personajes);
             contenidoAlmacenado.agregarPersonajes(personajes);
         }
         return this.contenidoMapper.contenidoAContenidoResponse(contenidoAlmacenado);
-        //return null;
     }
 
     public ContenidoDTO editarContenido(Long idContenido, ContenidoEditadoRequest contenidoEditadoRequest, MultipartFile imagen){

@@ -15,7 +15,7 @@ public class SubidaArchivos {
         try {
             byte[] bytesImagen = imagen.getBytes();
             Path rutaImagen = Paths.get(rutaAbsoluta+"/"+imagen.getOriginalFilename());
-            //Files.write(rutaImagen,bytesImagen);
+            Files.write(rutaImagen,bytesImagen);
             return rutaImagen.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);

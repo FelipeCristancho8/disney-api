@@ -1,0 +1,793 @@
+{
+	"info": {
+		"_postman_id": "c77bceb9-9a22-4c64-9991-fccfce7eb719",
+		"name": "Disney",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Personajes",
+			"item": [
+				{
+					"name": "Obtener personajes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTk1OTQsImV4cCI6MTY1OTIwMzE5NH0.iHhfiMk6uPxdQUYIQVPxik2amNdw0-XH07fjvYVQQuPx4mVQBPMFW8I_2SGRdKw6HbXSUmwvT0QszVrMP3qwJw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/characters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Personaje",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "personaje",
+									"value": "{\n    \"nombre\": \"Bruno Madrigal\",\n    \"fechaNacimiento\": \"1997-08-08\",\n    \"peso\": 71.2,\n    \"historia\": \"historia Bruno\"\n}",
+									"contentType": "application/json",
+									"type": "default"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/felip/Desktop/spring.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/characters/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear personaje",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTk1OTQsImV4cCI6MTY1OTIwMzE5NH0.iHhfiMk6uPxdQUYIQVPxik2amNdw0-XH07fjvYVQQuPx4mVQBPMFW8I_2SGRdKw6HbXSUmwvT0QszVrMP3qwJw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "personaje",
+									"value": "{\n    \"nombre\": \"Bruno\",\n    \"fechaNacimiento\": \"1997-08-08\",\n    \"peso\": 72.2,\n    \"historia\": \"historia Bruno\",\n    \"contenidoAsociado\": []\n}",
+									"contentType": "application/json",
+									"type": "default"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/felip/Desktop/spring.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/characters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener personajes con detalles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTk1OTQsImV4cCI6MTY1OTIwMzE5NH0.iHhfiMk6uPxdQUYIQVPxik2amNdw0-XH07fjvYVQQuPx4mVQBPMFW8I_2SGRdKw6HbXSUmwvT0QszVrMP3qwJw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/characters/detalle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters",
+								"detalle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Personajes por nombre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/characters?name=Bruno",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Bruno"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar personaje por edad",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/characters?age=24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters"
+							],
+							"query": [
+								{
+									"key": "age",
+									"value": "24"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener personajes por contenido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/characters?movies=41",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters"
+							],
+							"query": [
+								{
+									"key": "movies",
+									"value": "41"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar personaje por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/characters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"characters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contenidos",
+			"item": [
+				{
+					"name": "Obtener contenidos con detalle",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/detalle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"detalle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar contenido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "contenido",
+									"value": "{\n    \"titulo\" : \"Encanto\",\n    \"fechaCreacion\" : \"2021-08-19\",\n    \"calificacion\" : 5,\n    \"personajesAsociados\" : [2],\n    \"generosAsociados\" : [1]\n}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/felip/Desktop/spring.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar contenido",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "contenido",
+									"value": "{\n    \"titulo\" : \"Encanto\",\n    \"fechaCreacion\" : \"2022-02-15\",\n    \"calificacion\" : 4\n}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/felip/Desktop/spring.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/movies/41",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar contenido por nombre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies?title=Encanto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Encanto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar contenido por genero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies?genre=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							],
+							"query": [
+								{
+									"key": "genre",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar contenido por orden",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies?order=DESC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar contenido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar personaje a contenido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/6/characters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"6",
+								"characters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar personaje de contenido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/movies/6/characters/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"movies",
+								"6",
+								"characters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Generos",
+			"item": [
+				{
+					"name": "Obtener Generos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTY1ODQsImV4cCI6MTY1OTIwMDE4NH0.GiT-vjqzEXOneUzTypPIFoxRt7mCXhLGZJsuTZo5v8224gq_AHuUo5oGW3fNusG3ujcxLhpegQImejP74f3U9g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/generos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"generos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Genero",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpcGUiLCJpYXQiOjE2NTkxOTcwMzgsImV4cCI6MTY1OTIwMDYzOH0.Iz-KS6QxEAjcmYJ5W1nTjcgvceH3qWJyvgroJ171Jo5LHiZqA8AgCTOWwUArHs-zYyR2YSuEEdtq7x4zPPMxzw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "genero",
+									"value": "{\n    \"nombre\" : \"Aventura\"\n}",
+									"contentType": "application/json",
+									"type": "default"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/Users/felip/Desktop/spring.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/generos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"generos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Registro usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\" : \"Felipe Cristancho\",\r\n    \"nombreUsuario\" : \"felipe\",\r\n    \"email\" : \"felipecristancho10@gmail.com\",\r\n    \"password\" : \"felipe\",\r\n    \"roles\" : [\"admin\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombreUsuario\" : \"felipe\",\r\n    \"password\" : \"felipe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

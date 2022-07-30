@@ -35,16 +35,16 @@ public class PersonajeServicio {
 
     public PersonajeResponse crearPersonaje(PersonajeRequest personaje, MultipartFile imagen){
         String rutaImagen = "";
-        List<Contenido> contenidos = this.contenidoServicio.obtenerContenidos(new ArrayList<>(personaje.getContenidoAsociado()));
         Personaje personajeEntidad = personajeMapper.personajeRequestAPersonaje(personaje);
-        if(contenidos != null){
+        if(personaje.getContenidoAsociado() != null){
+            List<Contenido> contenidos = this.contenidoServicio.obtenerContenidos(new ArrayList<>(personaje.getContenidoAsociado()));
             personajeEntidad.agregarContenidos(contenidos);
         }
         if(!imagen.isEmpty()){
             rutaImagen = SubidaArchivos.subirImagen(imagen);
             personajeEntidad.setImagen(rutaImagen);
         }
-        //this.personajeRepositorio.save(personajeEntidad);
+        this.personajeRepositorio.save(personajeEntidad);
         return personajeMapper.personajeAPersonajeResponse(personajeEntidad);
     }
 
@@ -57,18 +57,17 @@ public class PersonajeServicio {
             personajeAEditar.setImagen(rutaImagen);
         }
         this.mapearCamposValidos(personaje,personajeAEditar);
-        //return personajeMapper.personajeAPersonajeDTO(this.personajeRepositorio.save(personajeAEditar));
-        return null;
+        return personajeMapper.personajeAPersonajeDTO(this.personajeRepositorio.save(personajeAEditar));
     }
 
     private void mapearCamposValidos(PersonajeEditadoRequest personajeRequest, Personaje personaje){
-        if(StringUtils.isBlank(personajeRequest.getNombre())){
+        if(!StringUtils.isBlank(personajeRequest.getNombre())){
             personaje.setNombre(personajeRequest.getNombre());
         }
         if(personajeRequest.getFechaNacimiento() != null){
             personaje.setFechaNacimiento(personajeRequest.getFechaNacimiento());
         }
-        if(StringUtils.isBlank(personajeRequest.getHistoria())){
+        if(!StringUtils.isBlank(personajeRequest.getHistoria())){
             personaje.setHistoria(personajeRequest.getHistoria());
         }
         if(personajeRequest.getPeso() != null){

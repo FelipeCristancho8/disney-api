@@ -62,18 +62,6 @@ public class ManejadorExcepciones extends ResponseEntityExceptionHandler {
         return buildResponseEntity(httpStatus, new RuntimeException("Tipo de Argumento invalido"));
     }
 
-    @ExceptionHandler
-    protected ResponseEntity<ErrorResponse> handleException(NullPointerException exc) {
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        return buildResponseEntity(httpStatus, new RuntimeException("Error nullPointerException"));
-    }
-
-    /*@ExceptionHandler
-    protected ResponseEntity<ErrorResponse> handleException(Exception exc) {
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        return buildResponseEntity(httpStatus, new RuntimeException("Se presento un problema, reporte e intente luego."));
-    }*/
-
     private ResponseEntity<ErrorResponse> buildResponseEntity(HttpStatus httpStatus, Exception exc) {
         return buildResponseEntity(httpStatus, exc, null);
     }
