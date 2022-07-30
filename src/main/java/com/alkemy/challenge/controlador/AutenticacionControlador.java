@@ -18,13 +18,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthControlador {
+public class AutenticacionControlador {
 
     @Autowired
     AutenticacionServicio autenticacionServicio;
 
-
-    @PostMapping("/nuevo")
+    @PostMapping("/register")
     public ResponseEntity<UsuarioResponse> registrarUsuario(@Valid @RequestBody UsuarioDTO nuevoUsuario){
         return new ResponseEntity(this.autenticacionServicio.registrarUsuario(nuevoUsuario), HttpStatus.CREATED);
     }

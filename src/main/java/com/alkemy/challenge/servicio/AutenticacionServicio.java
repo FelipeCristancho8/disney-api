@@ -46,6 +46,9 @@ public class AutenticacionServicio {
     @Autowired
     UsuarioMapper usuarioMapper;
 
+    @Autowired
+    MailServicio mailServicio;
+
     public UsuarioResponse registrarUsuario(UsuarioDTO nuevoUsuario){
         if(usuarioServicio.existsByNombreUsuario(nuevoUsuario.getNombreUsuario()))
             throw new ElementoDuplicadoExcepcion(NOMBRE_USUARIO_DUPLICADO);
@@ -59,6 +62,7 @@ public class AutenticacionServicio {
         if(nuevoUsuario.getRoles().contains("admin"))
             roles.add(rolServicio.getByRolNombre(RolNombre.ROLE_ADMIN).get());
         usuario.setRoles(roles);
+        mailServicio.enviarMensaje(nuevoUsuario.getEmail());
         return this.usuarioMapper.UsuarioAUsuarioResponse(usuarioServicio.save(usuario));
     }
 
